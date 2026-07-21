@@ -4,6 +4,7 @@ import az.ibrahim.libraryapi.dto.author.AuthorResponse;
 import az.ibrahim.libraryapi.dto.author.CreateAuthorRequest;
 import az.ibrahim.libraryapi.dto.author.UpdateAuthorRequest;
 import az.ibrahim.libraryapi.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping
-    public ResponseEntity<AuthorResponse> create(@RequestBody CreateAuthorRequest request){
+    public ResponseEntity<AuthorResponse> create(@Valid @RequestBody CreateAuthorRequest request){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(authorService.create(request));
@@ -36,7 +37,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorResponse> update(@PathVariable Long id, @RequestBody UpdateAuthorRequest request){
+    public ResponseEntity<AuthorResponse> update(@PathVariable Long id,@Valid @RequestBody UpdateAuthorRequest request){
         return ResponseEntity.ok(authorService.update(id,request));
     }
 

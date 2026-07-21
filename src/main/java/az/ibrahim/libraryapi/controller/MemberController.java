@@ -4,6 +4,7 @@ import az.ibrahim.libraryapi.dto.member.CreateMemberRequest;
 import az.ibrahim.libraryapi.dto.member.MemberResponse;
 import az.ibrahim.libraryapi.dto.member.UpdateMemberRequest;
 import az.ibrahim.libraryapi.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberResponse> create(@RequestBody CreateMemberRequest request) {
+    public ResponseEntity<MemberResponse> create(@Valid @RequestBody CreateMemberRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(memberService.create(request));
@@ -36,7 +37,7 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MemberResponse> update(@PathVariable Long id, @RequestBody UpdateMemberRequest request) {
+    public ResponseEntity<MemberResponse> update(@PathVariable Long id,@Valid @RequestBody UpdateMemberRequest request) {
         return ResponseEntity.ok(memberService.update(id, request));
     }
 

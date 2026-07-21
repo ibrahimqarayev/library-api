@@ -4,6 +4,7 @@ import az.ibrahim.libraryapi.dto.book.BookResponse;
 import az.ibrahim.libraryapi.dto.book.CreateBookRequest;
 import az.ibrahim.libraryapi.dto.book.UpdateBookRequest;
 import az.ibrahim.libraryapi.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<BookResponse> create(@RequestBody CreateBookRequest request) {
+    public ResponseEntity<BookResponse> create(@Valid @RequestBody CreateBookRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(bookService.create(request));
@@ -36,7 +37,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpdateBookRequest request) {
+    public ResponseEntity<BookResponse> update(@PathVariable Long id, @Valid @RequestBody UpdateBookRequest request) {
         return ResponseEntity.ok(bookService.update(id, request));
     }
 
