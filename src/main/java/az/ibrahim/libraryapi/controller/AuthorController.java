@@ -3,6 +3,7 @@ package az.ibrahim.libraryapi.controller;
 import az.ibrahim.libraryapi.dto.author.AuthorResponse;
 import az.ibrahim.libraryapi.dto.author.CreateAuthorRequest;
 import az.ibrahim.libraryapi.dto.author.UpdateAuthorRequest;
+import az.ibrahim.libraryapi.dto.pagination.PageResponse;
 import az.ibrahim.libraryapi.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,13 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorResponse>> getAll(){
-        return ResponseEntity.ok(authorService.getAll());
+    public ResponseEntity<PageResponse<AuthorResponse>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        return ResponseEntity.ok(authorService.getAll(page, size, sortBy, sortDirection));
     }
 
     @GetMapping("/{id}")

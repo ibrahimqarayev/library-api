@@ -3,15 +3,18 @@ package az.ibrahim.libraryapi.service;
 import az.ibrahim.libraryapi.dto.member.CreateMemberRequest;
 import az.ibrahim.libraryapi.dto.member.MemberResponse;
 import az.ibrahim.libraryapi.dto.member.UpdateMemberRequest;
+import az.ibrahim.libraryapi.dto.pagination.PageResponse;
 import az.ibrahim.libraryapi.entity.Member;
 import az.ibrahim.libraryapi.exception.MemberNotFoundException;
 import az.ibrahim.libraryapi.mapper.MemberMapper;
+import az.ibrahim.libraryapi.mapper.PageMapper;
 import az.ibrahim.libraryapi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final PageMapper pageMapper;
 
     public MemberResponse create(CreateMemberRequest request) {
         Member member = memberMapper.toEntity(request);
@@ -26,10 +30,16 @@ public class MemberService {
         return memberMapper.toResponse(savedMember);
     }
 
-    public List<MemberResponse> getAll() {
-        return memberRepository.findAll()
-                .stream().map(memberMapper::toResponse)
-                .collect(Collectors.toList());
+    public PageResponse<MemberResponse> getAll(
+            int page,
+            int size,
+            String sortBy,
+            String sortDirection) {
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Member> memberPage = memberRepository.findAll(pageable);
+        return pageMapper.toPageResponse(memberPage, memberMapper::toResponse);
     }
 
     public MemberResponse getById(Long id) {

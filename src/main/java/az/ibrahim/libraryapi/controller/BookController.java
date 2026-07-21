@@ -3,6 +3,7 @@ package az.ibrahim.libraryapi.controller;
 import az.ibrahim.libraryapi.dto.book.BookResponse;
 import az.ibrahim.libraryapi.dto.book.CreateBookRequest;
 import az.ibrahim.libraryapi.dto.book.UpdateBookRequest;
+import az.ibrahim.libraryapi.dto.pagination.PageResponse;
 import az.ibrahim.libraryapi.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,13 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookResponse>> getAll() {
-        return ResponseEntity.ok(bookService.getAll());
+    public ResponseEntity<PageResponse<BookResponse>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        return ResponseEntity.ok(bookService.getAll(page, size, sortBy, sortDirection));
     }
 
     @GetMapping("/{id}")
