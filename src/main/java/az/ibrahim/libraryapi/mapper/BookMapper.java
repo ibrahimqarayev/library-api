@@ -11,6 +11,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface BookMapper {
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
     Book toEntity(CreateBookRequest request);
 
