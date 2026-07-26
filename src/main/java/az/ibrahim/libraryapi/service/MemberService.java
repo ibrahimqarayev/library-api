@@ -9,6 +9,7 @@ import az.ibrahim.libraryapi.exception.MemberNotFoundException;
 import az.ibrahim.libraryapi.mapper.MemberMapper;
 import az.ibrahim.libraryapi.mapper.PageMapper;
 import az.ibrahim.libraryapi.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PageMapper pageMapper;
 
+    @Transactional
     public MemberResponse create(CreateMemberRequest request) {
         Member member = memberMapper.toEntity(request);
         Member savedMember = memberRepository.save(member);
@@ -47,6 +49,7 @@ public class MemberService {
         return memberMapper.toResponse(member);
     }
 
+    @Transactional
     public MemberResponse update(Long id, UpdateMemberRequest request) {
         Member member = findMemberById(id);
 
@@ -58,6 +61,7 @@ public class MemberService {
         return memberMapper.toResponse(updatedMember);
     }
 
+    @Transactional
     public void delete(Long id) {
         Member member = findMemberById(id);
         memberRepository.delete(member);

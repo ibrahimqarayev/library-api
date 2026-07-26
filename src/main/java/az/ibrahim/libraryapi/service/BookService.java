@@ -12,6 +12,7 @@ import az.ibrahim.libraryapi.mapper.BookMapper;
 import az.ibrahim.libraryapi.mapper.PageMapper;
 import az.ibrahim.libraryapi.repository.AuthorRepository;
 import az.ibrahim.libraryapi.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final PageMapper pageMapper;
 
+    @Transactional
     public BookResponse create(CreateBookRequest request) {
         Book book = bookMapper.toEntity(request);
 
@@ -54,6 +56,7 @@ public class BookService {
         return bookMapper.toResponse(book);
     }
 
+    @Transactional
     public BookResponse update(Long id, UpdateBookRequest request) {
         Book book = findBookById(id);
 
@@ -68,6 +71,7 @@ public class BookService {
         return bookMapper.toResponse(updatedBook);
     }
 
+    @Transactional
     public void delete(Long id) {
         Book book = findBookById(id);
         bookRepository.delete(book);

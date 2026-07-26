@@ -9,6 +9,7 @@ import az.ibrahim.libraryapi.exception.AuthorNotFoundException;
 import az.ibrahim.libraryapi.mapper.AuthorMapper;
 import az.ibrahim.libraryapi.mapper.PageMapper;
 import az.ibrahim.libraryapi.repository.AuthorRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ public class AuthorService {
     private final AuthorMapper authorMapper;
     private final PageMapper pageMapper;
 
+    @Transactional
     public AuthorResponse create(CreateAuthorRequest request) {
         Author author = authorMapper.toEntity(request);
         Author savedAuthor = authorRepository.save(author);
@@ -46,6 +48,7 @@ public class AuthorService {
         return authorMapper.toResponse(author);
     }
 
+    @Transactional
     public AuthorResponse update(Long id, UpdateAuthorRequest request) {
         Author author = findAuthorById(id);
 
@@ -56,6 +59,7 @@ public class AuthorService {
         return authorMapper.toResponse(updateAuthor);
     }
 
+    @Transactional
     public void delete(Long id) {
         Author author = findAuthorById(id);
         authorRepository.delete(author);
