@@ -1,7 +1,12 @@
 package az.ibrahim.libraryapi.security;
 
+import az.ibrahim.libraryapi.exception.ErrorResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -9,14 +14,28 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    @Override
-    public void handle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            AccessDeniedException accessDeniedException) throws IOException {
+    private final ObjectMapper objectMapper;
 
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
+    @Override
+    public void handle(HttpServletRequest request,
+                       HttpServletResponse response,
+                       AccessDeniedException accessDeniedException)
+            throws IOException {
+
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpServletResponse.SC_FORBIDDEN,
+                HttpStatus.FORBIDDEN.getReasonPhrase(),
+                "Access denied",
+                request.getRequestURI(),
+                null
+        );
+
+        objectMapper.writeValue(response.getOutputStream(), errorResponse);
     }
 }
