@@ -1,11 +1,14 @@
 package az.ibrahim.libraryapi.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +28,7 @@ public class CreateBookRequest {
 
     @NotNull(message = "Author ID is required")
     private Long authorId;
+
+    @NotEmpty(message = "At least one category is required")
+    private List<Long> categoryIds;
 }
