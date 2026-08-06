@@ -1,5 +1,6 @@
 package az.ibrahim.libraryapi.dto.book;
 
+import az.ibrahim.libraryapi.dto.category.CategoryResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,5 @@ public class BookResponse {
     private String isbn;
     private Integer publicationYear;
     private Long authorId;
-    private List<Long> categoryIds;
+    private List<CategoryResponse> categories;
 }

@@ -8,15 +8,14 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper(componentModel = "spring", uses = CategoryMapper.class, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface BookMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
-    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     Book toEntity(CreateBookRequest request);
 
     @Mapping(target = "authorId", source = "author.id")
-    @Mapping(target = "categoryId", source = "category.id")
     BookResponse toResponse(Book book);
 }
