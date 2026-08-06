@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.AssertThrows.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -73,4 +72,5 @@ class BookServiceIntegrationTest {
 
         assertEquals(initialBookCount, bookRepository.count());
     }
+
 }
