@@ -1,4 +1,4 @@
-package az.ibrahim.libraryapi.service;
+package az.ibrahim.libraryapi.unit;
 
 import az.ibrahim.libraryapi.dto.member.CreateMemberRequest;
 import az.ibrahim.libraryapi.dto.member.MemberResponse;
@@ -9,6 +9,7 @@ import az.ibrahim.libraryapi.exception.MemberNotFoundException;
 import az.ibrahim.libraryapi.mapper.MemberMapper;
 import az.ibrahim.libraryapi.mapper.PageMapper;
 import az.ibrahim.libraryapi.repository.MemberRepository;
+import az.ibrahim.libraryapi.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

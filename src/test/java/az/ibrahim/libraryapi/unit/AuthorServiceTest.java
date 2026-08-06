@@ -1,4 +1,4 @@
-package az.ibrahim.libraryapi.service;
+package az.ibrahim.libraryapi.unit;
 
 import az.ibrahim.libraryapi.dto.author.AuthorResponse;
 import az.ibrahim.libraryapi.dto.author.CreateAuthorRequest;
@@ -9,6 +9,7 @@ import az.ibrahim.libraryapi.exception.AuthorNotFoundException;
 import az.ibrahim.libraryapi.mapper.AuthorMapper;
 import az.ibrahim.libraryapi.mapper.PageMapper;
 import az.ibrahim.libraryapi.repository.AuthorRepository;
+import az.ibrahim.libraryapi.service.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
