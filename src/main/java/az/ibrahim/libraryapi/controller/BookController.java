@@ -60,6 +60,10 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            summary = "Search books",
+            description = "Searches books dynamically using optional filters such as title, author, category, and publication year."
+    )
     @GetMapping("/search")
     public ResponseEntity<List<BookResponse>> search(
             @RequestParam(required = false) String title,
