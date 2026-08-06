@@ -49,6 +49,9 @@ dependencies {
     // Database
     runtimeOnly 'org.postgresql:postgresql'
 
+    implementation 'org.springframework.boot:spring-boot-h2console'
+    runtimeOnly 'com.h2database:h2'
+
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
