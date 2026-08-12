@@ -12,6 +12,7 @@ import az.ibrahim.libraryapi.exception.BookNotFoundException;
 import az.ibrahim.libraryapi.exception.CategoryNotFoundException;
 import az.ibrahim.libraryapi.mapper.BookMapper;
 import az.ibrahim.libraryapi.mapper.PageMapper;
+import az.ibrahim.libraryapi.notification.event.BookCreatedEvent;
 import az.ibrahim.libraryapi.repository.AuthorRepository;
 import az.ibrahim.libraryapi.repository.BookRepository;
 import az.ibrahim.libraryapi.repository.CategoryRepository;
@@ -20,6 +21,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
+    private final ApplicationEventPublisher eventPublisher;
     private final BookMapper bookMapper;
     private final PageMapper pageMapper;
 
@@ -47,11 +50,21 @@ public class BookService {
         book.setAuthor(author);
 
         List<Category> categories = findCategoriesByIds(request.getCategoryIds());
+
         book.setCategories(categories);
 
         Book savedBook = bookRepository.save(book);
 
-        return bookMapper.toResponse(savedBook);
+        BookResponse response = bookMapper.toResponse(savedBook);
+
+        eventPublisher.publishEvent(
+                new BookCreatedEvent(
+                        savedBook.getAuthor().getEmail(),
+                        savedBook.getTitle()
+                )
+        );
+
+        return response;
     }
 
     public PageResponse<BookResponse> getAll(
