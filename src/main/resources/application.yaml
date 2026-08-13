@@ -26,8 +26,18 @@ spring:
     redis:
       time-to-live: 10m
 
+file:
+  storage:
+    path: uploads/books
+  upload:
+    max-size: 5MB
+    allowed-types:
+      .pdf: application/pdf
+      .epub: application/epub+zip
+
 application:
   security:
     jwt:
       secret-key: ${JWT_SECRET}
       expiration: ${JWT_EXPIRATION}
+
