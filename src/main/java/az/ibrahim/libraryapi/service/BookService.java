@@ -18,6 +18,8 @@ import az.ibrahim.libraryapi.repository.CategoryRepository;
 import az.ibrahim.libraryapi.specification.BookSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,11 +66,13 @@ public class BookService {
         return pageMapper.toPageResponse(bookPage, bookMapper::toResponse);
     }
 
+    @Cacheable(value = "books", key = "#id")
     public BookResponse getById(Long id) {
         Book book = findBookById(id);
         return bookMapper.toResponse(book);
     }
 
+    @CacheEvict(value = "books", key = "#id")
     @Transactional
     public BookResponse update(Long id, UpdateBookRequest request) {
 
@@ -89,6 +93,7 @@ public class BookService {
         return bookMapper.toResponse(updatedBook);
     }
 
+    @CacheEvict(value = "books", key = "#id")
     @Transactional
     public void delete(Long id) {
         Book book = findBookById(id);
